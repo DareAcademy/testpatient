@@ -1,0 +1,52 @@
+﻿@model PatientDTO
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script>
+        function showDesease(){
+            var isDesease= document.getElementById("checkDefault").checked
+            if (isDesease==true){
+                document.getElementById("diseaseBox").style.display="block";
+            }else
+            {
+                document.getElementById("diseaseBox").style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" asp-for="Name">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Phone</label>
+            <input type="text" class="form-control" asp-for="Phone">
+        </div>
+        <div class="mb-3">
+            <input class="form-check-input" type="checkbox" value="" asp-for="Isdisease" onchange="showDesease()" id="checkDefault">
+            <label class="form-check-label" >
+                Is Disease
+            </label>
+            </div>
+            @if(Model.Isdisease==true){
+                <div class="mb-3" id="diseaseBox" style="display:none">
+                    <label class="form-label">Disease Name</label>
+                    <input type="text" class="form-control" asp-for="diseaseName">
+                </div>
+            }
+        <div class="mb-3">
+        <input type="submit" value="Save" class="btn btn-primary" asp-action="Save" />    
+        </div>
+    </form>
+</body>
+</html>
