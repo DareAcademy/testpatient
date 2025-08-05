@@ -20,6 +20,7 @@ namespace testPatient.Controllers
 
         public IActionResult Save(PatientDTO patient)
         {
+            
             int Id = patientService.AddPatient(patient);
             PatientDTO patientdetails = patientService.GetPatient(Id);
             return View("Index", patientdetails);

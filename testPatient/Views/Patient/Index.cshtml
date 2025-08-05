@@ -1,9 +1,8 @@
 ﻿@model PatientDTO
+
 @{
     Layout = null;
 }
-
-<!DOCTYPE html>
 
 <html>
 <head>
@@ -11,15 +10,21 @@
     <title>Index</title>
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <script>
-        function showDesease(){
-            var isDesease= document.getElementById("checkDefault").checked
-            if (isDesease==true){
-                document.getElementById("diseaseBox").style.display="block";
-            }else
-            {
-                document.getElementById("diseaseBox").style.display = "none";
+        function showDesease() {
+            var isDesease = document.getElementById("checkDefault").checked;
+            var box = document.getElementById("diseaseBox");
+            if (isDesease) {
+                box.style.display = "block";
+            } else {
+                box.style.display = "none";
+                // Optional: clear disease name if unchecked
+                document.getElementById("diseaseName").value = "";
             }
         }
+
+        window.onload = function () {
+            showDesease(); // Ensure correct display on load
+        };
     </script>
 </head>
 <body>
@@ -28,25 +33,26 @@
             <label class="form-label">Name</label>
             <input type="text" class="form-control" asp-for="Name">
         </div>
+
         <div class="mb-3">
             <label class="form-label">Phone</label>
             <input type="text" class="form-control" asp-for="Phone">
         </div>
+
+        <div class="mb-3 form-check">
+            <input class="form-check-input" type="checkbox" asp-for="Isdisease" onchange="showDesease()" id="checkDefault">
+            <label class="form-check-label" for="checkDefault">Is Disease</label>
+        </div>
+
+        <div class="mb-3" id="diseaseBox" style="display: @(Model.Isdisease || !string.IsNullOrEmpty(Model.diseaseName) ? "block" : "none")">
+            <label class="form-label">Disease Name</label>
+            <input type="text" class="form-control" asp-for="diseaseName" id="diseaseName">
+        </div>
+
         <div class="mb-3">
-            <input class="form-check-input" type="checkbox" value="" asp-for="Isdisease" onchange="showDesease()" id="checkDefault">
-            <label class="form-check-label" >
-                Is Disease
-            </label>
-            </div>
-            @if(Model.Isdisease==true){
-                <div class="mb-3" id="diseaseBox" style="display:none">
-                    <label class="form-label">Disease Name</label>
-                    <input type="text" class="form-control" asp-for="diseaseName">
-                </div>
-            }
-        <div class="mb-3">
-        <input type="submit" value="Save" class="btn btn-primary" asp-action="Save" />    
+            <input type="submit" value="Save" class="btn btn-primary" asp-action="Save" />
         </div>
     </form>
 </body>
 </html>
+
